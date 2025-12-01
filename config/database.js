@@ -1,14 +1,18 @@
 import mysql from "mysql2/promise";
 import "dotenv/config";
+import { logger } from "./logger.js";
 
 const connectionOptions = process.env.MYSQL_URI ?? {
   host: process.env.MYSQL_HOST || "localhost",
   port: process.env.MYSQL_PORT || 3306,
   user: process.env.MYSQL_USERNAME || "root",
-  password: process.env.MYSQL_PASSWORD || "",
-  database: process.env.MYSQL_DBNAME || "",
+  password: process.env.MYSQL_PASSWORD || "root",
+  database: process.env.MYSQL_DBNAME || "NodeAPI",
 };
 
 export const pool = mysql.createPool(connectionOptions);
 
-console.log("MySQL pool initialized");
+pool
+  .getConnection()
+  .then(() => logger.info("MySQL connected successfully"))
+  .catch((err) => logger.error("MySQL connection failed", err));

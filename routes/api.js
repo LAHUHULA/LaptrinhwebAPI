@@ -1,15 +1,12 @@
-import express from "express";
-import { getUsers } from "../controllers/userController.js";
+import { Router } from "express";
+import { userController } from "../controllers/user.controller.js";
 
-const router = express.Router();
+const router = Router();
 
-router.get("/", (req, res) => {
-  res.json({ message: "Welcome to API route" });
-});
-
-// -----------------------users---------------------------
-// Route: GET /api/users
-router.get("/users/", getUsers);
-// Route: GET /api/users/:id
+router.get("/users", userController.getAll);
+router.get("/users/:id", userController.getById);
+router.post("/users", userController.create);
+router.put("/users/:id", userController.update);
+router.delete("/users/:id", userController.delete);
 
 export default router;
