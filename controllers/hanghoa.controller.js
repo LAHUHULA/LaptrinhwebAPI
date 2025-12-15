@@ -15,7 +15,7 @@ export const hanghoaController = {
 
   getByMaLoai: async (req, res) => {
     const MaLoai = +req.params.MaLoai;
-    logger.info(`Controller: GET /hanghoas/${MaLoai}`);
+    logger.info(`Controller: GET /hanghoas/ma-loai/${MaLoai}`);
 
     try {
       const hanghoa = await hanghoaService.gethanghoaByMaLoai(MaLoai);
@@ -24,5 +24,29 @@ export const hanghoaController = {
       logger.error(`Controller Error: getByMaLoai failed (${MaLoai})`, err);
       res.status(404).json({ message: err.message });
     }
-  }
+  },
+
+    getByTenLoai: async (req, res) => {
+    const TenLoai = req.params.TenLoai;
+    logger.info(`Controller: GET /hanghoas/ten-loai/${TenLoai}`);
+
+    try {
+      const hanghoa = await hanghoaService.gethanghoaByTenLoai(TenLoai);
+      res.json(hanghoa);
+    } catch (err) {
+      logger.error(`Controller Error: getByTenLoai failed (${TenLoai})`, err);
+      res.status(404).json({ message: err.message });
+    }
+  },
+
+  getAllSapHet: async (req, res) => {
+    try {
+      logger.info("Controller: GET /hanghoas/sap-het");
+      const hanghoa = await hanghoaService.getAllhanghoaSapHet();
+      res.json(hanghoa);
+    } catch (err) {
+      logger.error("Controller Error: getAllSapHet failed", err);
+      res.status(500).json({ message: err.message });
+    }
+  },
 };

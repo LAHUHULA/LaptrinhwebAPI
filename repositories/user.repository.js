@@ -2,6 +2,39 @@ import { pool } from "../config/database.js";
 import { logger } from "../config/logger.js";
 
 export const userRepository = {
+
+    getByEmail: async (email) => {
+    logger.info(`Repository: Fetching user by email ${email}`);
+    try {
+      const db = await pool;
+      const [rows] = await db.query(
+        "SELECT * FROM Users WHERE email = ?",
+        [email]
+      );
+      return rows[0];
+    } catch (err) {
+      logger.error("Repository Error: getByEmail failed", err);
+      throw err;
+    }
+  },
+
+  createUser: async (user) => {
+    logger.info(`Repository: Creating user ${user.email}`);
+    try {
+      const db = await pool;
+      await db.query(
+        `
+        INSERT INTO Users (name, email, password, phone, role)
+        VALUES (?, ?, ?, ?, ?)
+        `,
+        [user.name, user.email, user.password, user.phone, user.role]
+      );
+    } catch (err) {
+      logger.error("Repository Error: create failed", err);
+      throw err;
+    }
+  },
+  
   getAll: async () => {
     logger.info("Repository: Fetching all users");
     try {

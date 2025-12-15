@@ -19,5 +19,23 @@ export const hanghoaService = {
     }
 
     return new HangHoaDTO(hanghoa);
-  }
+  },
+
+    gethanghoaByTenLoai: async (TenLoai) => {
+    logger.info(`Service: Getting hanghoa by TenLoai ${TenLoai}`);
+    const hanghoa = await hanghoaRepository.getByTenLoai(TenLoai);
+
+    if (!hanghoa) {
+      logger.warn(`Service Warning: hanghoa ${TenLoai} not found`);
+      throw new Error("hanghoa not found");
+    }
+
+    return hanghoa.map(hanghoa => new HangHoaDTO(hanghoa));
+  },
+
+  getAllhanghoaSapHet: async () => {
+    logger.info("Service: Getting all hanghoaSapHet");
+    const hanghoas = await hanghoaRepository.getAllSapHet();
+    return hanghoas.map((u) => new HangHoaDTO(u));
+  },
 };
