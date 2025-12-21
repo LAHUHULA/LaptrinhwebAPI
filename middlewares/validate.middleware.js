@@ -6,7 +6,7 @@ export function validate(schema) {
     } catch (err) {
       res.status(400).json({
         message: "Validation error",
-        errors: err.errors
+        errors: err.errors,
       });
     }
   };

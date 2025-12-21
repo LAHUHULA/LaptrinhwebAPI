@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { userRepository  } from "../repositories/user.repository.js";
+import { userRepository } from "../repositories/user.repository.js";
 
 const SECRET_KEY = "JWT_SECRET_KEY";
 
@@ -12,7 +12,7 @@ export async function register(dto) {
     email: dto.email,
     password: hashedPassword,
     phone: dto.phone,
-    role: dto.role
+    role: dto.role,
   });
 }
 
@@ -23,9 +23,7 @@ export async function login(email, password) {
   const valid = bcrypt.compareSync(password, user.password);
   if (!valid) return null;
 
-  return jwt.sign(
-    { id: user.id, role: user.role },
-    SECRET_KEY,
-    { expiresIn: "1h" }
-  );
+  return jwt.sign({ id: user.id, role: user.role }, SECRET_KEY, {
+    expiresIn: "1h",
+  });
 }

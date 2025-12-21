@@ -1,14 +1,12 @@
 import { Router } from "express";
 import { userController } from "../controllers/user.controller.js";
-import { hanghoaController } from "../controllers/hanghoa.controller.js";
-import { sanphamController } from "../controllers/sanpham.controller.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
-import { authorizeRoles } from "../middlewares/role.middleware.js";
 import {
   registerSchema,
   loginSchema,
 } from "../validators/authens/auth.validator.js";
+
 import { registerUser, loginUser } from "../controllers/auth.controller.js";
 import { POLICIES } from "../utils/constants/policies.js";
 import { authorizePolicy } from "../middlewares/policy.middleware.js";
@@ -60,13 +58,5 @@ router.delete(
   userController.delete
 );
 
-// ----------------------- HANGHOAS -------------------------------------
-router.get("/hanghoas", hanghoaController.getAll);
-router.get("/hanghoas/ma-loai/:MaLoai", hanghoaController.getByMaLoai);
-router.get("/hanghoas/ten-loai/:TenLoai", hanghoaController.getByTenLoai);
-router.get("/hanghoas/sap-het", hanghoaController.getAllSapHet);
-
-// ----------------------- SANPHAMS -------------------------------------
-router.get("/sanphams", sanphamController.getAllsanphams);
 
 export default router;
